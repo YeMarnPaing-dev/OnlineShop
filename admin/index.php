@@ -10,50 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Online Shop | Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #e0f7fa, #ffe0e0);
-            font-family: "Poppins", sans-serif;
-        }
-        .navbar {
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .navbar-brand {
-            font-weight: 600;
-            color: #333 !important;
-        }
-        .dashboard-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-top: 40px;
-            color: #333;
-        }
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s ease-in-out;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .card h4 {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px 0;
-            color: #666;
-            font-size: 0.9rem;
-        }
-        .footer span {
-            color: #000;
-            font-weight: 500;
-        }
-    </style>
+   <link rel="stylesheet" href="/admin/admin.css">
 </head>
 <body>
 
