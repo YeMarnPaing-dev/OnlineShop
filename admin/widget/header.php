@@ -15,6 +15,7 @@ include(__DIR__ . '/../../config.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Online Shop | Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
    <link rel="stylesheet" href="/admin/admin.css">
 </head>
 <body>
@@ -31,8 +32,8 @@ include(__DIR__ . '/../../config.php');
 
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="manageAdmin.php">Admin</a></li>
+                   <li class="nav-item"><a class="nav-link" href="/admin/index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="manangeAdmin.php">Admin</a></li>
                     <li class="nav-item"><a class="nav-link" href="manageCategory.php">Category</a></li>
                     <li class="nav-item"><a class="nav-link" href="manageProduct.php">Product</a></li>
                     <li class="nav-item"><a class="nav-link" href="manageOrder.php">Order</a></li>
