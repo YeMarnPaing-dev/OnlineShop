@@ -48,15 +48,15 @@
         <th><?= $fullname ?></th>
         <th><?= $username ?></th>
         <th>
-            <a href="" class="bg-white p-2 rounded mx-1" title="update password">
+            <a href="updatePassword.php" class="bg-white p-2 rounded mx-1" title="update password">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
 
-              <a href="" class="bg-white p-2 rounded mx-1" title="update password">
+              <a href="updateAdmin.php?id=<?= $id ?>" class="bg-white p-2 rounded mx-1" title="update admin">
                 <i class="fa-solid text-warning fa-user-pen"></i>
             </a>
 
-            <a href="" class="bg-white p-2 rounded mx-1" title="update password">
+            <a href="deleteAdmin.php?id=<?= $id ?>" class="bg-white p-2 rounded mx-1" title="delete admin">
                 <i class="fa-solid text-danger fa-trash"></i>
             </a>
         </th>
