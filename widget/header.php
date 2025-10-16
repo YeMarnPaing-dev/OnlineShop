@@ -63,11 +63,19 @@
     <!-- Nav Bar Section -->
 
     <!-- Mobile View Search Bar -->
-    <div class="container-fluid product-search d-md-none d-sm-block">
-        <form class="d-flex w-60 p-3 mx-auto" role="search">
-            <input class="form-control me-2 text-muted search" type="search" placeholder="Search Something ..."
-                aria-label="Search">
-            <button class="btn btn-outline-light search-btn" type="submit">Search</button>
-        </form>
-    </div>
+ <!-- Mobile Search Bar -->
+<div class="container-fluid bg-primary product-search d-md-none d-sm-block">
+    <form class="d-flex w-75 p-3 mx-auto" role="search" method="GET" action="search-product.php">
+        <input 
+            class="form-control me-2 text-muted search" 
+            type="search" 
+            name="search"
+            placeholder="Search something..."
+            aria-label="Search"
+            required
+        >
+        <button class="btn btn-light search-btn" type="submit">Search</button>
+    </form>
+</div>
+
     <!-- Mobile View Search Bar -->
