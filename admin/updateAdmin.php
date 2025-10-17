@@ -54,8 +54,8 @@ if (isset($_GET['id'])) {
                     <label for="Username" class="form-label">User Name</label>
                     <input type="text" class="form-control" id="Username" value="<?= $username ?>" required name="Username">
                 </div>
-
-                            <input type="submit" class="btn btn-primary text-white" value="Update">
+                <input type="hidden" value="<?= $id ?>" name="id">
+                <input type="submit" class="btn btn-primary text-white" value="Update">
             </form>
             </div>
           
@@ -64,3 +64,36 @@ if (isset($_GET['id'])) {
 </div>
 
 <?php include('widget/footer.php') ?>
+
+<?php
+if($_SERVER['REQUEST_METHOD']=='POST'){
+   $id = $_POST['id'];
+   $fullname = $_POST['fullname'];
+   $username = $_POST['Username'];
+
+   $sql = "UPDATE admins SET
+   fullname = '$fullname',
+   userName='$username'
+   WHERE id='$id'
+   ";
+
+   $res = mysqli_query($conn,$sql);
+
+  if ($res) {
+    $_SESSION['noti'] = '
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Admin Updated Successfully
+    </div>';
+   header("Refresh:3"); // reloads after 3 seconds
+exit;
+
+
+} else {
+    $_SESSION['noti'] = '
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Failed to Update Admin
+    </div>';
+
+}}
+
+?>
