@@ -48,7 +48,7 @@
         <th><?= $fullname ?></th>
         <th><?= $username ?></th>
         <th>
-            <a href="updatePassword.php" class="bg-white p-2 rounded mx-1" title="update password">
+            <a href="updatePassword.php?id=<?= $id?>" class="bg-white p-2 rounded mx-1" title="update password">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
 
