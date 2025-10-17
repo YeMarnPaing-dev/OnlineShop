@@ -6,8 +6,28 @@ include('../config.php'); // if not already included in header
 ?>
 
 <?php
+if (isset($_GET['id'])) {
+    $id = intval($_GET['id']); // sanitize input
+    $sql = "SELECT * FROM admins WHERE id = ?";
+    
+   $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
 
+    if ($res && mysqli_num_rows($res) === 1) {
+        $row = mysqli_fetch_assoc($res);
+        $retrived_password = $row['password'];
+       
+    } else {
+        $_SESSION['noti'] = '
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Failed to find Admin for update.
+        </div>';
+   }
 
+      
+    }
 ?>
 
 
@@ -19,7 +39,7 @@ include('../config.php'); // if not already included in header
     unset($_SESSION['noti']); // remove it so it only shows once
 }
          ?>
-        <h2 class="mt-4 mb-3 ">Update Admin</h2>
+        <h2 class="mt-4 mb-3 ">Update Password</h2>
 
         <!-- Add Admin Form  -->
          <diiv class="col-md-6">
@@ -42,8 +62,9 @@ include('../config.php'); // if not already included in header
                 </div>
 
               
-                <input type="hidden" value="<?= $id ?>" name="id">
-                <input type="submit" class="btn btn-primary text-white" value="Update">
+                <input type="hidden" value="<?= $retrived_password ?>" name="retrived_password">
+                <input type="hidden" value="<?=  $id?>" name="id">
+                <input type="submit" class="btn btn-primary text-white" value="Update Password">
             </form>
             </div>
           
@@ -52,3 +73,48 @@ include('../config.php'); // if not already included in header
 </div>
 
 <?php include('widget/footer.php') ?>
+
+<?php
+if($_SERVER['REQUEST_METHOD']=='POST'){
+   $id = $_POST['id'];
+   $retrived_password=$_POST['retrived_password'];
+   $current_password=md5($_POST['currentPassword']);
+   $newpassword=md5($_POST['newPassword']);
+   $confirmpassword=md5($_POST['confirmPassword']);
+   if($retrived_password != $current_password){
+      $_SESSION['noti'] = '
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+           Current Password Incorrect
+        </div>'; 
+   }elseif($newpassword != $confirmpassword){
+      $_SESSION['noti'] = '
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            New password must be same with Confirm Password
+        </div>';    
+   }else{
+    $sql = "UPDATE admins SET 
+    password = '$confirmpassword'
+    WHERE id = '$id'
+    ";
+
+    $res = mysqli_query($conn,$sql);
+
+      if ($res) {
+    $_SESSION['noti'] = '
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Password Updated Successfully
+    </div>';
+   header("Refresh:3"); // reloads after 3 seconds
+exit;
+
+
+} else {
+    $_SESSION['noti'] = '
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Failed to Update Password
+    </div>';
+
+}
+   }
+}
+?>
