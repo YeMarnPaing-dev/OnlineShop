@@ -75,8 +75,9 @@ if (isset($_GET['id'])) {
 <?php include('widget/footer.php') ?>
 
 <?php
-session_start();
-require_once 'config.php'; // make sure $conn is defined here (your DB connection)
+// session_start();
+require_once __DIR__ . '/../config.php';
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
