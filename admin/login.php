@@ -58,6 +58,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
   $count = mysqli_num_rows($res);
   if($count == 1){
+    $_SESSION['user']=$username;
     $_SESSION['noti'] = '
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     Login Successfully

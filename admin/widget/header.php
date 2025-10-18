@@ -3,6 +3,17 @@ include(__DIR__ . '/../../config.php');
 
 ?>
 
+<!-- Check Whether The user is Logged or not  -->
+ <?php
+ if(!isset($_SESSION['user'])){
+        $_SESSION['noti'] = '
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  You have to Login First!
+                </div>';  
+                header('location: login.php');
+ }
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
