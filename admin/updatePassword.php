@@ -75,46 +75,66 @@ if (isset($_GET['id'])) {
 <?php include('widget/footer.php') ?>
 
 <?php
-if($_SERVER['REQUEST_METHOD']=='POST'){
-   $id = $_POST['id'];
-   $retrived_password=$_POST['retrived_password'];
-   $current_password=md5($_POST['currentPassword']);
-   $newpassword=md5($_POST['newPassword']);
-   $confirmpassword=md5($_POST['confirmPassword']);
-   if($retrived_password != $current_password){
-      $_SESSION['noti'] = '
+session_start();
+require_once 'config.php'; // make sure $conn is defined here (your DB connection)
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id = $_POST['id'];
+    $currentPassword = $_POST['currentPassword'];
+    $newPassword = $_POST['newPassword'];
+    $confirmPassword = $_POST['confirmPassword'];
+
+    // Fetch existing password hash from DB
+    $sql = "SELECT password FROM admins WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows === 1) {
+        $stmt->bind_result($stored_hash);
+        $stmt->fetch();
+
+        // Verify current password
+        if (!password_verify($currentPassword, $stored_hash)) {
+            $_SESSION['noti'] = '
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Current Password Incorrect
+            </div>';
+        } elseif ($newPassword !== $confirmPassword) {
+            $_SESSION['noti'] = '
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                New password must match Confirm Password
+            </div>';
+        } else {
+            // Hash new password securely
+            $new_hash = password_hash($newPassword, PASSWORD_DEFAULT);
+
+            $update_sql = "UPDATE admins SET password = ? WHERE id = ?";
+            $update_stmt = $conn->prepare($update_sql);
+            $update_stmt->bind_param("si", $new_hash, $id);
+            $res = $update_stmt->execute();
+
+            if ($res) {
+                $_SESSION['noti'] = '
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Password Updated Successfully
+                </div>';
+                header("Refresh:3"); // reload after 3 seconds
+                exit;
+            } else {
+                $_SESSION['noti'] = '
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Failed to Update Password
+                </div>';
+            }
+        }
+    } else {
+        $_SESSION['noti'] = '
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-           Current Password Incorrect
-        </div>'; 
-   }elseif($newpassword != $confirmpassword){
-      $_SESSION['noti'] = '
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            New password must be same with Confirm Password
-        </div>';    
-   }else{
-    $sql = "UPDATE admins SET 
-    password = '$confirmpassword'
-    WHERE id = '$id'
-    ";
-
-    $res = mysqli_query($conn,$sql);
-
-      if ($res) {
-    $_SESSION['noti'] = '
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        Password Updated Successfully
-    </div>';
-   header("Refresh:3"); // reloads after 3 seconds
-exit;
-
-
-} else {
-    $_SESSION['noti'] = '
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        Failed to Update Password
-    </div>';
-
-}
-   }
+            User not found
+        </div>';
+    }
 }
 ?>
+
