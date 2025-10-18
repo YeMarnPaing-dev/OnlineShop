@@ -62,6 +62,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     Login Successfully
                 </div>';
+                header('location: index.php');
   }else{
     $_SESSION['noti'] = '
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">

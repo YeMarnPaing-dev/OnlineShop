@@ -1,6 +1,13 @@
 <?php include('widget/header.php') ?>
     <!-- DASHBOARD SECTION -->
+      
     <div class="container text-center">
+           <?php
+                    if(isset($_SESSION['noti'])){
+                        echo $_SESSION['noti'];
+                        unset($_SESSION['noti']);
+                    }
+                    ?>
         <h2 class="dashboard-title">Dashboard</h2>
 
         <div class="row justify-content-center mt-5">
