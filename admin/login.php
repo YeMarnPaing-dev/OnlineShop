@@ -29,11 +29,11 @@ include('../config.php')
                     <form action="" method="POST">
                         <div class="mb-3">
                         <label for="username" class="form-lable">UserName</label>
-                        <input type="text" class="form-control" name='username' id="username">
+                        <input type="text" class="form-control" name='username' id="username" required>
                     </div>
                      <div class="mb-3">
                         <label for="password" class="form-lable">Password</label>
-                        <input type="password" class="form-control" name='password' id="password">
+                        <input type="password" class="form-control" name='password' id="password" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
                     </form>
@@ -51,16 +51,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $password=md5($_POST['password']);
 
   $sql = "SELECT * FROM admins WHERE 
-  username = '$username' AND password = '$password'
+  userName = '$username' AND password = '$password'
   ";
 
   $res =mysqli_query($conn,$sql);
 
   $count = mysqli_num_rows($res);
   if($count == 1){
-    echo ' true';
+    $_SESSION['noti'] = '
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Login Successfully
+                </div>';
   }else{
-    echo 'false';
+    $_SESSION['noti'] = '
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                   Fail to Login
+                </div>';
   }
 }
 
