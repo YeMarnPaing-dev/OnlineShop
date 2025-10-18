@@ -13,33 +13,39 @@
         <h2 class="mt-4 mb-3">Manage Category</h2>
         <!-- table Categoru -->
          <div class="col-12">
-            <a href="" class="btn btn-primary w-10 mb-3">Add Category</a>
+            <a href="addCategory.php" class="btn btn-primary w-10 mb-3">Add Category</a>
 
-            <table class="table table-striped">
+            <table class="table table-loght table-striped">
   <thead>
     <tr class="text-center">
       <th scope="col">#</th>
-      <th scope="col">Name</th>
+      <th scope="col">Title</th>
       <th scope="col">Image</th>
+      <th scope='col'>Feature</th>
+      <th scope='col'>Active</th>
       <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
 
         <tr class="text-center">
-        <th scope='row'></th>
-        <th></th>
-        <th></th>
+        <th scope='row'>1</th>
+        <th>Title</th>
         <th>
-            <a href="" class="bg-white p-2 rounded mx-1" title="update password">
+            <img src="../images/logo.png" style="width:100px" class="rounded" alt="">
+        </th>
+        <th>Yes</th>
+        <th>Yes</th>
+        <th>
+            <a href="updateCategory.php?id=<?= $id ?>" class="bg-white p-2 rounded mx-1" title="update category">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
 
-              <a href="" class="bg-white p-2 rounded mx-1" title="update admin">
+              <!-- <a href="" class="bg-white p-2 rounded mx-1" title="update admin">
                 <i class="fa-solid text-warning fa-user-pen"></i>
-            </a>
+            </a> -->
 
-            <a href="" class="bg-white p-2 rounded mx-1" title="delete admin">
+            <a href="deleteCategory.php?id=<?= $id ?>" class="bg-white p-2 rounded mx-1" title="delete category">
                 <i class="fa-solid text-danger fa-trash"></i>
             </a>
         </th>
