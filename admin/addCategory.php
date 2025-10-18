@@ -16,11 +16,11 @@
                     <div class="row">
                         <div class="col-6 mb-3">
                             <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id='title' name='title'>
+                            <input type="text" required class="form-control" id='title' name='title'>
                         </div>
                           <div class="col-6 mb-3">
                             <label for="image" class="form-label">Image</label>
-                            <input type="file" class="form-control" id='image' name='image'>
+                            <input type="file" required class="form-control" id='image' name='image'>
 
                             <div class="col-6 mt-2 mb-3">
                                 <img id="preview" src="#" alt="Selected image preview" class="img-fluid rounded border" style="display:none; max-height: 250px;">
@@ -63,6 +63,67 @@
 </div>
 
 <?php include('widget/footer.php') ?>
+<?php
+if($_SERVER['REQUEST_METHOD']=='POST'){
+   $title = $_POST['title'];
+   if(isset($_POST['featured'])){
+    $featured = $_POST['featured'];
+   }else{
+    $featured='No';
+   }
+
+   if(isset($_POST['active'])){
+    $active = $_POST['active'];
+   }else{
+    $active= 'No';
+   }
+
+   if(isset($_FILES['image']['name'])){
+    $image_name = $_FILES['image']['name'];
+    // renaming the image
+
+    $ext = end(explode('.',$image_name));
+    $image_name = "category_" . rand(000,999).'.'.$ext;
+
+    $source_path= $_FILES['image']['tmp_name'];
+
+    $destination_path = "../images/categories/".$image_name;
+    $upload = move_uploaded_file($source_path,$destination_path);
+    if(!$upload){
+            $_SESSION['noti'] = '
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Fail to Upload Image
+                </div>';
+                header('location : addCategory.php');
+                exit();                
+    }
+   }
+
+   $sql = "INSERT INTO categories SET
+   title = '$title',
+   feature = '$featured',
+   active = '$active',
+   image = '$image_name'
+ ";
+
+ $res = mysqli_query($conn,$sql);
+ if($res){
+     $_SESSION['noti'] = '
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Category Added Successfully
+                </div>';
+                header('location : manageCategory.php');          
+                exit();
+ }else{
+     $_SESSION['noti'] = '
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Fail to add Category
+                </div>';
+                header('location : addCategory.php');          
+                exit();
+ }
+}
+?>
 
 <script>
     const imageInput = document.getElementById('image');
