@@ -1,3 +1,7 @@
+<?php
+include('../config.php')
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -22,6 +26,17 @@
                 <br><br>
                 <div class="border p-3 rounded-3">
                     <img src="../images/logo.png" alt="" class="mx-auto d-block mb-3" style="width:30%">
+                    <form action="" method="POST">
+                        <div class="mb-3">
+                        <label for="username" class="form-lable">UserName</label>
+                        <input type="text" class="form-control" name='username' id="username">
+                    </div>
+                     <div class="mb-3">
+                        <label for="password" class="form-lable">Password</label>
+                        <input type="password" class="form-control" name='password' id="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
                 </div>
                         </div>
         </div>
@@ -29,3 +44,24 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>
 </html>
+
+<?php 
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+  $username=$_POST['username'];
+  $password=md5($_POST['password']);
+
+  $sql = "SELECT * FROM admins WHERE 
+  username = '$username' AND password = '$password'
+  ";
+
+  $res =mysqli_query($conn,$sql);
+
+  $count = mysqli_num_rows($res);
+  if($count == 1){
+    echo ' true';
+  }else{
+    echo 'false';
+  }
+}
+
+?>
