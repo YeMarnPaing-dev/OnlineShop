@@ -2,10 +2,10 @@
 include('../config.php');
 
 if (isset($_GET['id']) && isset($_GET['image'])) {
-    $id = intval($_GET['id']); // sanitize id
+    $id = intval($_GET['id']); 
     $image = $_GET['image'];
 
-    // Delete image if it exists
+  
     if (!empty($image)) {
         $path = "../images/categories/" . basename($image);
         if (file_exists($path)) {
@@ -13,7 +13,7 @@ if (isset($_GET['id']) && isset($_GET['image'])) {
         }
     }
 
-    // Delete category record securely
+    
     $stmt = $conn->prepare("DELETE FROM categories WHERE id = ?");
     $stmt->bind_param("i", $id);
     $res = $stmt->execute();

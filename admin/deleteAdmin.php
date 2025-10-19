@@ -11,7 +11,7 @@ if ($res) {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         Admin Deleted Successfully
     </div>';
-    // header('location: manageAdmin.php');
+ 
  
 exit;
 
