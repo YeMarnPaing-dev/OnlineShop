@@ -64,65 +64,68 @@
 
 <?php include('widget/footer.php') ?>
 <?php
-if($_SERVER['REQUEST_METHOD']=='POST'){
-   $title = $_POST['title'];
-   if(isset($_POST['featured'])){
-    $featured = $_POST['featured'];
-   }else{
-    $featured='No';
-   }
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $title = $_POST['title'];
+    $featured = isset($_POST['featured']) ? $_POST['featured'] : 'No';
+    $active = isset($_POST['active']) ? $_POST['active'] : 'No';
+    $image_name = '';
 
-   if(isset($_POST['active'])){
-    $active = $_POST['active'];
-   }else{
-    $active= 'No';
-   }
+    if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != '') {
+        $image_name = $_FILES['image']['name'];
 
-   if(isset($_FILES['image']['name'])){
-    $image_name = $_FILES['image']['name'];
-    // renaming the image
+        // Fix: extract extension safely
+        $temp = explode('.', $image_name);
+        $ext = end($temp);
 
-    $ext = end(explode('.',$image_name));
-    $image_name = "category_" . rand(000,999).'.'.$ext;
+        // Rename image
+        $image_name = "category_" . rand(000, 999) . '.' . $ext;
 
-    $source_path= $_FILES['image']['tmp_name'];
+        $source_path = $_FILES['image']['tmp_name'];
+        $destination_dir = "../images/categories/";
 
-    $destination_path = "../images/categories/".$image_name;
-    $upload = move_uploaded_file($source_path,$destination_path);
-    if(!$upload){
+        // Ensure folder exists
+        if (!is_dir($destination_dir)) {
+            mkdir($destination_dir, 0777, true);
+        }
+
+        $destination_path = $destination_dir . $image_name;
+
+        // Upload the file
+        $upload = move_uploaded_file($source_path, $destination_path);
+        if (!$upload) {
             $_SESSION['noti'] = '
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                Fail to Upload Image
+                    Fail to Upload Image
                 </div>';
-                header('location : addCategory.php');
-                exit();                
+            header('Location: addCategory.php');
+            exit();
+        }
     }
-   }
 
-   $sql = "INSERT INTO categories SET
-   title = '$title',
-   feature = '$featured',
-   active = '$active',
-   image = '$image_name'
- ";
+    $sql = "INSERT INTO categories SET
+        title = '$title',
+        feature = '$featured',
+        active = '$active',
+        image = '$image_name'";
 
- $res = mysqli_query($conn,$sql);
- if($res){
-     $_SESSION['noti'] = '
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
+    $res = mysqli_query($conn, $sql);
+    if ($res) {
+        $_SESSION['noti'] = '
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
                 Category Added Successfully
-                </div>';
-                header('location : manageCategory.php');          
-                exit();
- }else{
-     $_SESSION['noti'] = '
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            </div>';
+        header('Location: manageCategory.php');
+        exit();
+    } else {
+        $_SESSION['noti'] = '
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 Fail to add Category
-                </div>';
-                header('location : addCategory.php');          
-                exit();
- }
+            </div>';
+        header('Location: addCategory.php');
+        exit();
+    }
 }
+
 ?>
 
 <script>

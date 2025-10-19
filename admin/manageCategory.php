@@ -17,7 +17,7 @@
 
             <table class="table table-loght table-striped">
   <thead>
-    <tr class="text-center">
+          <tr class="text-center">
       <th scope="col">#</th>
       <th scope="col">Title</th>
       <th scope="col">Image</th>
@@ -27,29 +27,52 @@
     </tr>
   </thead>
   <tbody>
+    <?php
+    $sql = "SELECT *  FROM categories";
+    $res = mysqli_query($conn,$sql);
+
+    $count = mysqli_num_rows($res);
+    if($count == 0){
+        echo 'No Data';
+    }else{
+        $sn =1;
+        while($row =mysqli_fetch_assoc($res)){
+            $id= $row['id'];
+            $title=$row['title'];
+            $feature=$row['feature'];
+            $active=$row['active'];
+            $image_name=$row['image'];
+            ?>
+ 
 
         <tr class="text-center">
-        <th scope='row'>1</th>
-        <th>Title</th>
+        <th scope='row'><?= $sn ?></th>
+        <th><?= $title ?></th>
         <th>
-            <img src="../images/logo.png" style="width:100px" class="rounded" alt="">
+            <img src="../images/categories/<?= $image_name ?>" style="width:100px" class="rounded" alt="">
         </th>
-        <th>Yes</th>
-        <th>Yes</th>
+        <th><?= $feature ?></th>
+        <th><?= $active ?></th>
         <th>
             <a href="updateCategory.php?id=<?= $id ?>" class="bg-white p-2 rounded mx-1" title="update category">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
 
-              <!-- <a href="" class="bg-white p-2 rounded mx-1" title="update admin">
-                <i class="fa-solid text-warning fa-user-pen"></i>
-            </a> -->
-
+             
             <a href="deleteCategory.php?id=<?= $id ?>" class="bg-white p-2 rounded mx-1" title="delete category">
                 <i class="fa-solid text-danger fa-trash"></i>
             </a>
         </th>
     </tr>
+            <?php
+            
+            
+
+            $sn++;
+        }
+    }
+    ?>
+
   
       
    
