@@ -59,7 +59,7 @@
             </a>
 
              
-            <a href="deleteCategory.php?id=<?= $id ?>" class="bg-white p-2 rounded mx-1" title="delete category">
+            <a href="deleteCategory.php?id=<?= urlencode($id) ?> & image=<?= urlencode($image_name)?>" class="bg-white p-2 rounded mx-1" title="delete category">
                 <i class="fa-solid text-danger fa-trash"></i>
             </a>
         </th>

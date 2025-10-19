@@ -1,29 +1,44 @@
 <?php
 include('../config.php');
 
-$id = $_GET['id'];
+if (isset($_GET['id']) && isset($_GET['image'])) {
+    $id = intval($_GET['id']); // sanitize id
+    $image = $_GET['image'];
 
-$sql = "DELETE From categories WHERE id = $id";
-$res = mysqli_query($conn,$sql);
+    // Delete image if it exists
+    if (!empty($image)) {
+        $path = "../images/categories/" . basename($image);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+    }
 
-if ($res) {
-    $_SESSION['noti'] = '
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        Category Deleted Successfully
-    </div>';
+    // Delete category record securely
+    $stmt = $conn->prepare("DELETE FROM categories WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $res = $stmt->execute();
+
+    if ($res) {
+        $_SESSION['noti'] = '
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Category deleted successfully.
+        </div>';
+    } else {
+        $_SESSION['noti'] = '
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Failed to delete category.
+        </div>';
+    }
+
     header('location: manageCategory.php');
- 
-exit;
-
-
+    exit();
 } else {
     $_SESSION['noti'] = '
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                Category Deleted Successfully
- to Delete Admin
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Invalid request.
     </div>';
     header('location: manageCategory.php');
+    exit();
 }
-
-
 ?>
+
