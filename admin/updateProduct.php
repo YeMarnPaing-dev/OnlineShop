@@ -180,33 +180,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $image_name = $old_image; 
 
   
-    if (!empty($_FILES['newImage']['name'])) {
-        $original_name = $_FILES['newImage']['name'];
-        $ext = pathinfo($original_name, PATHINFO_EXTENSION);
-        $image_name = "category_" . rand(100, 999) . "." . $ext;
+if (!empty($_FILES['newImage']['name'])) {
+    // Get original file name and extension
+    $original_name = $_FILES['newImage']['name'];
+    $ext = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
 
-        $source_path = $_FILES['newImage']['tmp_name'];
-        $destination_path = "../images/products/" . $image_name;
+    // Allow only certain image types
+    $allowed_ext = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    if (!in_array($ext, $allowed_ext)) {
+        $_SESSION['noti'] = '
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Invalid file type. Only JPG, PNG, GIF, and WEBP allowed.
+        </div>';
+        header('Location: manageProduct.php');
+        exit();
+    }
 
-        $upload = move_uploaded_file($source_path, $destination_path);
+    // Rename image to avoid conflicts
+    $image_name = "product_" . rand(1000, 9999) . "." . $ext;
 
-        if (!$upload) {
-            $_SESSION['noti'] = '
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                Fail to Upload New Image
-            </div>';
-            header('Location: manageProduct.php');
-            exit();
-        }
+    // Define paths
+    $source_path = $_FILES['newImage']['tmp_name'];
+    $destination_path = "../images/products/" . $image_name;
 
-        
-        if (!empty($old_image)) {
-            $path = "../images/products/" . $old_image;
-            if (file_exists($path)) {
-                unlink($path);
-            }
+    // Try to upload the new file
+    if (!move_uploaded_file($source_path, $destination_path)) {
+        $_SESSION['noti'] = '
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Failed to upload new image.
+        </div>';
+        header('Location: manageProduct.php');
+        exit();
+    }
+
+    // Delete old image if it exists
+    if (!empty($old_image)) {
+        $old_path = "../images/products/" . $old_image;
+        if (file_exists($old_path)) {
+            unlink($old_path);
         }
     }
+}
+
 
   
   $stmt = $conn->prepare("
