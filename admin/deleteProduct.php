@@ -30,14 +30,14 @@ if (isset($_GET['id']) && isset($_GET['image'])) {
         </div>';
     }
 
-    header('location: manageCategory.php');
+    header('location: manageProduct.php');
     exit();
 } else {
     $_SESSION['noti'] = '
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         Invalid request.
     </div>';
-    header('location: manageCategory.php');
+    header('location: manageProduct.php');
     exit();
 }
 ?>
