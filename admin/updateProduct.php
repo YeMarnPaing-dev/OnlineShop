@@ -93,7 +93,7 @@ if($res){
       <div class="col-6 mt-2 mb-3">
         <img 
           id="preview"
-          src="<?= !empty($image) ? '../images/categories/' . htmlspecialchars($image) : '' ?>"
+          src="<?= !empty($image) ? '../images/products/' . htmlspecialchars($image) : '' ?>"
           alt="Selected image preview"
           class="img-fluid rounded border"
           style="max-height: 100px; <?= empty($image) ? 'display:none;' : '' ?>"
@@ -147,3 +147,21 @@ if($res){
 </div>
 
 <?php include('widget/footer.php') ?>
+
+<script>
+document.getElementById('newImage').addEventListener('change', function (event) {
+  const preview = document.getElementById('preview');
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  } else {
+    preview.src = '';
+    preview.style.display = 'none';
+  }
+});
+</script>
