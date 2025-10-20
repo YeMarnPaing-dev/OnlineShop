@@ -60,7 +60,7 @@
         <th>
             <img src="../images/products/<?= $image_name ?>" style="width:100px" class="rounded" alt="">
         </th>
-        <th><?= $nategory_name ?></th>
+        <th><?= $category_name ?></th>
         <th><?= $feature ?></th>
         <th><?= $active ?></th>
         <th>

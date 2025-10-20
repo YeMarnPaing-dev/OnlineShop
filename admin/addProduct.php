@@ -102,6 +102,75 @@
 
 <?php include('widget/footer.php') ?>
 
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $title = $_POST['title'];
+    $price=$_POST['price'];
+    $category=$_POST['category'];
+    $featured = isset($_POST['featured']) ? $_POST['featured'] : 'No';
+    $active = isset($_POST['active']) ? $_POST['active'] : 'No';
+    $image_name = '';
+
+    if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != '') {
+        $image_name = $_FILES['image']['name'];
+
+        // Fix: extract extension safely
+        $temp = explode('.', $image_name);
+        $ext = end($temp);
+
+        // Rename image
+        $image_name = "category_" . rand(000, 999) . '.' . $ext;
+
+        $source_path = $_FILES['image']['tmp_name'];
+        $destination_dir = "../images/products/";
+
+        // Ensure folder exists
+        if (!is_dir($destination_dir)) {
+            mkdir($destination_dir, 0777, true);
+        }
+
+        $destination_path = $destination_dir . $image_name;
+
+        // Upload the file
+        $upload = move_uploaded_file($source_path, $destination_path);
+        if (!$upload) {
+            $_SESSION['noti'] = '
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Fail to Upload Image
+                </div>';
+            header('Location: addCategory.php');
+            exit();
+        }
+    }
+
+    $sql = "INSERT INTO products SET
+        title = '$title',
+        price='$price',
+        category_id='$category',
+        featured = '$featured',
+        active = '$active',
+        image = '$image_name'";
+
+    $res = mysqli_query($conn, $sql);
+    if ($res) {
+        $_SESSION['noti'] = '
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Product Added Successfully
+            </div>';
+        header('Location: manageProduct.php');
+        exit();
+    } else {
+        $_SESSION['noti'] = '
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Fail to add Product
+            </div>';
+        header('Location: manageProduct.php');
+        exit();
+    }
+}
+
+?>
+
 <script>
     const imageInput = document.getElementById('image');
     const preview = document.getElementById('preview');
