@@ -20,8 +20,10 @@
           <tr class="text-center">
       <th scope="col">#</th>
       <th scope="col">Title</th>
+      <th scope="col">Price</th>
       <th scope="col">Image</th>
-      <th scope='col'>Feature</th>
+      <th scope='col'>Category</th>
+      <th scope='col'>Featured</th>
       <th scope='col'>Active</th>
       <th scope="col">Actions</th>
     </tr>
@@ -32,10 +34,12 @@
 
         <tr class="text-center">
         <th scope='row'></th>
-        <th></th>
+        <th></th>        
         <th>
             <img src="" style="width:100px" class="rounded" alt="">
         </th>
+        <th></th>
+        <th></th>
         <th></th>
         <th></th>
         <th>
