@@ -29,59 +29,69 @@
     </tr>
   </thead>
   <tbody>
- <?php
-    $sql = "SELECT *  FROM products";
-    $res = mysqli_query($conn,$sql);
+<?php
+// Fetch all products with their category names in one query (avoids N+1 problem)
+$sql = "SELECT p.*, c.title AS category_name 
+        FROM products p 
+        LEFT JOIN categories c ON p.category_id = c.id";
 
-    $count = mysqli_num_rows($res);
-    if($count == 0){
-        echo 'No Data';
-    }else{
-        $sn =1;
-        while($row =mysqli_fetch_assoc($res)){
-            $id= $row['id'];
-            $title=$row['title'];
-            $price=$row['price'];
-            $category_id=$row['category_id'];
-            $feature=$row['featured'];
-            $active=$row['active'];
-            $image_name=$row['image'];
+$res = mysqli_query($conn, $sql);
 
-            $sql = "SELECT title FROM categories WHERE id=$category_id";
-            $res=mysqli_query($conn,$sql);
-            $category_name= mysqli_fetch_assoc($res)['title'];
-            ?>
- 
+// Check if query ran successfully
+if (!$res) {
+    die("Query Failed: " . mysqli_error($conn));
+}
+
+$count = mysqli_num_rows($res);
+
+if ($count == 0) {
+    echo '<tr><td colspan="8" class="text-center">No Data</td></tr>';
+} else {
+    $sn = 1;
+    while ($row = mysqli_fetch_assoc($res)) {
+        $id = $row['id'];
+        $title = $row['title'];
+        $price = $row['price'];
+        $category_name = $row['category_name'] ?? 'Uncategorized';
+        $feature = $row['featured'];
+        $active = $row['active'];
+        $image_name = $row['image'];
+        ?>
 
         <tr class="text-center">
-        <th scope='row'><?= $sn ?></th>
-        <th><?= $title ?></th>
-        <th><?= $price ?></th>
-        <th>
-            <img src="../images/products/<?= $image_name ?>" style="width:100px" class="rounded" alt="">
-        </th>
-        <th><?= $category_name ?></th>
-        <th><?= $feature ?></th>
-        <th><?= $active ?></th>
-        <th>
-            <a href="updateProduct.php?id=<?= $id ?>" class="bg-white p-2 rounded mx-1" title="update product">
-                <i class="fa-solid fa-pen-to-square"></i>
-            </a>
+            <th scope="row"><?= $sn ?></th>
+            <td><?= htmlspecialchars($title) ?></td>
+            <td><?= htmlspecialchars($price) ?></td>
+            <td>
+                <?php if (!empty($image_name)) : ?>
+                    <img src="../images/products/<?= htmlspecialchars($image_name) ?>" 
+                         style="width:100px" class="rounded" alt="">
+                <?php else : ?>
+                    <span>No Image</span>
+                <?php endif; ?>
+            </td>
+            <td><?= htmlspecialchars($category_name) ?></td>
+            <td><?= htmlspecialchars($feature) ?></td>
+            <td><?= htmlspecialchars($active) ?></td>
+            <td>
+                <a href="updateProduct.php?id=<?= urlencode($id) ?>" 
+                   class="bg-white p-2 rounded mx-1" title="Update Product">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
 
-             
-            <a href="deleteProduct.php?id=<?= urlencode($id) ?> & image=<?= urlencode($image_name)?>" class="bg-white p-2 rounded mx-1" title="delete product">
-                <i class="fa-solid text-danger fa-trash"></i>
-            </a>
-        </th>
-    </tr>
-            <?php
-            
-            
+                <a href="deleteProduct.php?id=<?= urlencode($id) ?>&image=<?= urlencode($image_name) ?>" 
+                   class="bg-white p-2 rounded mx-1" title="Delete Product">
+                    <i class="fa-solid fa-trash text-danger"></i>
+                </a>
+            </td>
+        </tr>
 
-            $sn++;
-        }
+        <?php
+        $sn++;
     }
-    ?>
+}
+?>
+
    
   </tbody>
 </table>
