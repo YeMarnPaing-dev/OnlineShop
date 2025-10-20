@@ -165,3 +165,83 @@ document.getElementById('newImage').addEventListener('change', function (event) 
   }
 });
 </script>
+
+<?php
+include('../config.php');
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id = intval($_POST['id']);
+    $title = $_POST['title'] ?? '';
+    $price = $_POST['price'] ?? '';
+    $category = $_POST['category'] ?? '';
+    $feature = $_POST['featured'] ?? ''; 
+    $active = $_POST['active'] ?? '';
+    $old_image = $_POST['image'] ?? '';
+    $image_name = $old_image; 
+
+  
+    if (!empty($_FILES['newImage']['name'])) {
+        $original_name = $_FILES['newImage']['name'];
+        $ext = pathinfo($original_name, PATHINFO_EXTENSION);
+        $image_name = "category_" . rand(100, 999) . "." . $ext;
+
+        $source_path = $_FILES['newImage']['tmp_name'];
+        $destination_path = "../images/products/" . $image_name;
+
+        $upload = move_uploaded_file($source_path, $destination_path);
+
+        if (!$upload) {
+            $_SESSION['noti'] = '
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Fail to Upload New Image
+            </div>';
+            header('Location: manageProduct.php');
+            exit();
+        }
+
+        
+        if (!empty($old_image)) {
+            $path = "../images/products/" . $old_image;
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+    }
+
+  
+  $stmt = $conn->prepare("
+    UPDATE products 
+    SET title=?, price=?, category_id=?, featured=?, active=?, image=? 
+    WHERE id=?
+");
+
+$stmt->bind_param(
+    "sdisssi",
+    $title,
+    $price,
+    $category,
+    $feature,
+    $active,
+    $image_name,
+    $id
+);
+
+
+    $res = $stmt->execute();
+
+    if ($res) {
+        $_SESSION['noti'] = '
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Product Updated Successfully
+        </div>';
+    } else {
+        $_SESSION['noti'] = '
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Failed to Update Product
+        </div>';
+    }
+
+    header('Location: manageProduct.php');
+    exit();
+}
+?>

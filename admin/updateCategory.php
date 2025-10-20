@@ -130,12 +130,12 @@ include('../config.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = intval($_POST['id']);
     $title = $_POST['title'] ?? '';
-    $feature = $_POST['featured'] ?? ''; // matches form field name
+    $feature = $_POST['featured'] ?? ''; 
     $active = $_POST['active'] ?? '';
     $old_image = $_POST['image'] ?? '';
-    $image_name = $old_image; // default to current image
+    $image_name = $old_image; 
 
-    // Handle new image upload
+  
     if (!empty($_FILES['newImage']['name'])) {
         $original_name = $_FILES['newImage']['name'];
         $ext = pathinfo($original_name, PATHINFO_EXTENSION);
@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         }
 
-        // Remove old image if exists
+        
         if (!empty($old_image)) {
             $path = "../images/categories/" . $old_image;
             if (file_exists($path)) {
@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Update record safely
+  
     $stmt = $conn->prepare("UPDATE categories SET title=?, feature=?, active=?, image=? WHERE id=?");
     $stmt->bind_param("ssssi", $title, $feature, $active, $image_name, $id);
     $res = $stmt->execute();
