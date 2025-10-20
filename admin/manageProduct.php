@@ -29,34 +29,59 @@
     </tr>
   </thead>
   <tbody>
-   
+ <?php
+    $sql = "SELECT *  FROM products";
+    $res = mysqli_query($conn,$sql);
+
+    $count = mysqli_num_rows($res);
+    if($count == 0){
+        echo 'No Data';
+    }else{
+        $sn =1;
+        while($row =mysqli_fetch_assoc($res)){
+            $id= $row['id'];
+            $title=$row['title'];
+            $price=$row['price'];
+            $category_id=$row['category_id'];
+            $feature=$row['featured'];
+            $active=$row['active'];
+            $image_name=$row['image'];
+
+            $sql = "SELECT title FROM categories WHERE id=$category_id";
+            $res=mysqli_query($conn,$sql);
+            $category_name= mysqli_fetch_assoc($res)['title'];
+            ?>
  
 
         <tr class="text-center">
-        <th scope='row'></th>
-        <th></th>        
+        <th scope='row'><?= $sn ?></th>
+        <th><?= $title ?></th>
+        <th><?= $price ?></th>
         <th>
-            <img src="" style="width:100px" class="rounded" alt="">
+            <img src="../images/products/<?= $image_name ?>" style="width:100px" class="rounded" alt="">
         </th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th><?= $nategory_name ?></th>
+        <th><?= $feature ?></th>
+        <th><?= $active ?></th>
         <th>
-            <a href="updateProduct.php?id=<?= $id ?>" class="bg-white p-2 rounded mx-1" title="update category">
+            <a href="updateProduct.php?id=<?= $id ?>" class="bg-white p-2 rounded mx-1" title="update product">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
 
              
-            <a href="deleteProduct.php?id=<?= urlencode($id) ?>" class="bg-white p-2 rounded mx-1" title="delete category">
+            <a href="deleteProduct.php?id=<?= urlencode($id) ?> & image=<?= urlencode($image_name)?>" class="bg-white p-2 rounded mx-1" title="delete product">
                 <i class="fa-solid text-danger fa-trash"></i>
             </a>
         </th>
     </tr>
+            <?php
+            
             
 
-  
-      
+            $sn++;
+        }
+    }
+    ?>
    
   </tbody>
 </table>
