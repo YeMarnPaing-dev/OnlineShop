@@ -70,7 +70,7 @@ include(__DIR__ . '/../config.php');
         <input 
             class="form-control me-2 text-muted search" 
             type="search" 
-            name="search"
+            name="query"
             placeholder="Search something..."
             aria-label="Search"
             required
@@ -79,4 +79,3 @@ include(__DIR__ . '/../config.php');
     </form>
 </div>
 
-    <!-- Mobile View Search Bar -->

@@ -11,7 +11,7 @@ include('widget/header.php')
 
         <div class="row">
           <?php
-             $sql= "SELECT * FROM products WHERE featured='Yes' & active='Yes'";
+             $sql= "SELECT * FROM products WHERE active='Yes' ";
              $res = mysqli_query($conn,$sql);
              if($res){
                 while($row=mysqli_fetch_assoc($res)){

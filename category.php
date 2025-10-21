@@ -9,7 +9,7 @@ include('widget/header.php')
         <div class="row">
 
                <?php 
-            $sql = "SELECT * FROM categories WHERE feature='Yes' AND active='Yes'";
+            $sql = "SELECT * FROM categories WHERE feature='Yes'";
             $res=mysqli_query($conn,$sql);
 
             if($res){
