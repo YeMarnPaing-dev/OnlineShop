@@ -120,7 +120,7 @@ include('widget/header.php')
         <div class="row">
             <!-- Get Data From Database  -->
              <?php
-             $sql= "SELECT * FROM products WHERE featured='Yes' & active='Yes' LIMIT 2";
+             $sql= "SELECT * FROM products WHERE featured='Yes' AND active='Yes' LIMIT 2";
              $res = mysqli_query($conn,$sql);
              if($res){
                 while($row=mysqli_fetch_assoc($res)){
