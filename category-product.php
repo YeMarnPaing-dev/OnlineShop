@@ -2,103 +2,48 @@
 include('widget/header.php')
 ?>
 
+<?php 
+$cid = $_GET['id'];
+$title = $_GET['title'];
+?>
+
     <!-- Product Section -->
     <div class="container p-3">
         <br>
-        <h2 class="text-center text-white d-none d-lg-block">Products on "Category Name"</h2>
+        <h2 class="text-center text-white d-none d-lg-block">Products on "<?= $title ?>"</h2>
         <br>
 
         <div class="row">
-            <div class="col-md-6 p-2">
+              <?php
+             $sql= "SELECT * FROM products WHERE active='Yes' And category_id=$cid";
+             $res = mysqli_query($conn,$sql);
+             if($res){
+                while($row=mysqli_fetch_assoc($res)){
+                    $title=$row['title'];
+                    $price=$row['price'];
+                    $image=$row['image'];
+                    ?>
+                     <div class="col-md-6 p-2">
                 <div class="p-3 border-0 rounded-4 bg-body shadow w-100">
                     <div class="d-flex">
-                        <img src="images/shamboo.svg" class="rounded-4 mt-3" width="20%" height="50%">
+                        <img src="./images/products/<?= $image ?>" class="rounded-4 mt-3" width="20%" height="50%">
                         <div class="p-3">
-                            <h4>Shamboo</h4>
-                            <p> $2.3 </p>
+                            <h4><?= $title ?></h4>
+                            <p><?= $price ?> </p>
                             <p class="text-muted">
                                 Some product description
                             </p>
-                            <a href="order.html" class="btn btn-primary w-40 text-decoration-none">Order Now</a>
+                            <a href="order.php" class="btn btn-primary w-40 text-decoration-none">Order Now</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 p-2">
-                <div class="p-3 border-0 rounded-4 bg-body shadow w-100">
-                    <div class="d-flex">
-                        <img src="images/lipstick.svg" class="rounded-4 mt-3" width="20%" height="50%">
-                        <div class="p-3">
-                            <h4>Lipstick</h4>
-                            <p> $2.3 </p>
-                            <p class="text-muted">
-                                Some product description
-                            </p>
-                            <a href="order.html" class="btn btn-primary w-40 text-decoration-none">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 p-2">
-                <div class="p-3 border-0 rounded-4 bg-body shadow w-100">
-                    <div class="d-flex">
-                        <img src="images/shamboo.svg" class="rounded-4 mt-3" width="20%" height="50%">
-                        <div class="p-3">
-                            <h4>Shamboo</h4>
-                            <p> $2.3 </p>
-                            <p class="text-muted">
-                                Some product description
-                            </p>
-                            <a href="order.html" class="btn btn-primary w-40 text-decoration-none">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 p-2">
-                <div class="p-3 border-0 rounded-4 bg-body shadow w-100">
-                    <div class="d-flex">
-                        <img src="images/lipstick.svg" class="rounded-4 mt-3" width="20%" height="50%">
-                        <div class="p-3">
-                            <h4>Lipstick</h4>
-                            <p> $2.3 </p>
-                            <p class="text-muted">
-                                Some product description
-                            </p>
-                            <a href="order.html" class="btn btn-primary w-40 text-decoration-none">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 p-2">
-                <div class="p-3 border-0 rounded-4 bg-body shadow w-100">
-                    <div class="d-flex">
-                        <img src="images/shamboo.svg" class="rounded-4 mt-3" width="20%" height="50%">
-                        <div class="p-3">
-                            <h4>Shamboo</h4>
-                            <p> $2.3 </p>
-                            <p class="text-muted">
-                                Some product description
-                            </p>
-                            <a href="order.html" class="btn btn-primary w-40 text-decoration-none">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 p-2">
-                <div class="p-3 border-0 rounded-4 bg-body shadow w-100">
-                    <div class="d-flex">
-                        <img src="images/lipstick.svg" class="rounded-4 mt-3" width="20%" height="50%">
-                        <div class="p-3">
-                            <h4>Lipstick</h4>
-                            <p> $2.3 </p>
-                            <p class="text-muted">
-                                Some product description
-                            </p>
-                            <a href="order.html" class="btn btn-primary w-40 text-decoration-none">Order Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    <?php
+                    
+                }
+             }
+             ?>
+      
         </div>
     </div>
     <!-- Product Section -->
