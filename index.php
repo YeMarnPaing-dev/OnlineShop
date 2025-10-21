@@ -11,7 +11,12 @@ include('widget/header.php')
         <h2 class="text-white text-center">Promotions</h2>
         <br><br>
 
+
+
         <div class="row">
+
+      
+
             <div class="col-md-8 mx-auto p-3">
                 <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
                     <div class="carousel-indicators">
