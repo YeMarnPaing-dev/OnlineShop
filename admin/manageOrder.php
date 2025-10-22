@@ -62,6 +62,20 @@ if ($count == 0) {
         $contact=$row['contact'];
         $email=$row['email'];
         $address=$row['address'];
+
+        switch($status){
+            case "Ordered":
+                $text_color='text-primary';
+                break;
+                case 'On Delivery':
+                    $text_color="text-secondary";
+                    break;
+                    case'Delivered':
+                        $text_color="text-success";
+                        break;
+                        default:
+                        $text_color='text-error';
+        }
         ?>
 
         <tr class="text-center">
@@ -71,7 +85,7 @@ if ($count == 0) {
             <td><?= htmlspecialchars($qty) ?></td>
             <td><?= htmlspecialchars($total) ?></td>
             <td><?= htmlspecialchars($date) ?></td>
-            <td><?= htmlspecialchars($status) ?></td>
+            <td class="<?= $text_color ?>"><?= htmlspecialchars($status) ?></td>
             <td><?= htmlspecialchars($name) ?></td>
             <td><?= htmlspecialchars($contact) ?></td>
              <td><?= htmlspecialchars($email) ?></td>
