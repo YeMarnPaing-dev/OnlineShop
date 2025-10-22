@@ -86,6 +86,45 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $qty=$_POST['qty'];
   $total = $price * $qty;
   $order_date=date('Y-m-d H:i:s');
+  $status="Ordered";
+  $name=$_POST['name'];
+  $contact=$_POST['phone'];
+  $email=$_POST['email'];
+  $address=$_POST['address'];
+
+  $sql= "INSERT INTO orders 
+  SET product='$product_title',
+  price=$price,
+  qty=$qty,
+  total=$total,
+  order_date='$order_date',
+  status='$status',
+  name='$name',
+  contact='$contact',
+  email='$email',
+  address='$address'
+  ";
+  
+  $res=mysqli_query($conn,$sql);
+
+  if ($res) {
+    $_SESSION['noti'] = '
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+       Order Added Successfully
+    </div>';
+    header('location: index.php');
+exit;
+
+
+} else {
+    $_SESSION['noti'] = '
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Failed to Add Order
+    </div>';
+      header('location: index.php');
+      exit;
+
+}
 }
 
 ?>

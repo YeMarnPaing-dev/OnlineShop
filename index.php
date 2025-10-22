@@ -7,6 +7,12 @@ include('widget/header.php')
 
     <!-- Promotion Section -->
     <div class="container p-3">
+        <?php
+        if(isset($_SESSION)){
+            echo $_SESSION['noti'];
+            unset($_SESSION['noti']);
+        }
+        ?>
         <br><br>
         <h2 class="text-white text-center">Promotions</h2>
         <br><br>
