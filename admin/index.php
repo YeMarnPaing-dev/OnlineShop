@@ -13,14 +13,29 @@
         <div class="row justify-content-center mt-5">
             <div class="col-md-3 col-sm-6 mb-4">
                 <div class="card py-4">
-                    <h4>5</h4>
+                           <?php
+                   $sql="SELECT * FROM categories ";
+                   $res=mysqli_query($conn,$sql);
+                   $count = mysqli_num_rows($res);
+                   
+                   ?>
+                    <h4>
+                        <?= $count ?>         
+                
+                    </h4>
                     <p>Categories</p>
                 </div>
             </div>
 
             <div class="col-md-3 col-sm-6 mb-4">
                 <div class="card py-4">
-                    <h4>5</h4>
+                    <?php
+                   $sql="SELECT * FROM products ";
+                   $res=mysqli_query($conn,$sql);
+                   $count = mysqli_num_rows($res);
+                   
+                   ?>
+                    <h4><?= $count ?></h4>
                     <p>Products</p>
                 </div>
             </div>

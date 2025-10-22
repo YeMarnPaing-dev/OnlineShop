@@ -8,7 +8,7 @@ include('widget/header.php')
     <!-- Promotion Section -->
     <div class="container p-3">
         <?php
-        if(isset($_SESSION)){
+        if(isset($_SESSION['noti'])){
             echo $_SESSION['noti'];
             unset($_SESSION['noti']);
         }
