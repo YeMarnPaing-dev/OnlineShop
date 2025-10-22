@@ -42,14 +42,29 @@
 
             <div class="col-md-3 col-sm-6 mb-4">
                 <div class="card py-4">
-                    <h4>5</h4>
+                      <?php
+                   $sql="SELECT * FROM orders ";
+                   $res=mysqli_query($conn,$sql);
+                   $count = mysqli_num_rows($res);
+                   
+                   ?>
+                    <h4><?= $count ?></h4>
                     <p>Total Orders</p>
                 </div>
             </div>
 
             <div class="col-md-3 col-sm-6 mb-4">
                 <div class="card py-4">
-                    <h4>$5</h4>
+                      <?php
+                   $sql="SELECT * FROM orders WHERE status='Delivered' ";
+                   $res=mysqli_query($conn,$sql);
+                   $total=0;
+                   while($row=mysqli_fetch_assoc($res)){
+                    $total+= $row['total'];
+                   }
+                   
+                   ?>
+                    <h4><?= $total ?></h4>
                     <p>Revenue Generated</p>
                 </div>
             </div>
