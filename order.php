@@ -22,7 +22,7 @@ $price=$row['price'];
                     Fill this form for to confirm your order
                 </h2>
                 <br>
-                <form action="" class="row g-3">
+                <form action="" method="POST" class="row g-3">
                     <fieldset class="border p-3 rounded-3 border-2">
                         <legend class="float-none w-auto p-2 text-white">Select Product</legend>
 
@@ -30,10 +30,10 @@ $price=$row['price'];
                             <img src="images/products/<?= $image ?>" alt="Lip stick" class="w-25 h-25 rounded-3">
                             <div class="px-3">
                                 <h3><?= $title ?></h3>
-                                <p><?= $price ?></p>
+                                <p>$ <?= $price ?></p>
 
                                 <label for="inputNumber" class="form-label">Items</label>
-                                <input type="number" class="form-control w-25" min="1" value="1" id="inputNumber">
+                                <input type="number" class="form-control w-25" name='qty' min="1" value="1" id="inputNumber">
                             </div>
                         </div>
 
@@ -47,30 +47,45 @@ $price=$row['price'];
 
                         <div class="col-md-12 ">
                             <label for="inputName" class="form-label text-white">Name</label>
-                            <input type="text" class="form-control" id="inputName" placeholder="James">
+                            <input type="text" class="form-control" id="inputName" name="name" placeholder="James">
                         </div>
 
                         <div class="col-md-12 ">
                             <label for="inputPhone" class="form-label text-white">Phone</label>
-                            <input type="tel" class="form-control" id="inputPhone" placeholder="097979xxxxxx">
+                            <input type="tel" class="form-control" id="inputPhone" name="phone" placeholder="097979xxxxxx">
                         </div>
 
                         <div class="col-md-12 ">
                             <label for="inputEmail" class="form-label text-white">Email</label>
-                            <input type="email" class="form-control" id="inputEmail" placeholder="someone@gmail.com">
+                            <input type="email" class="form-control" id="inputEmail" name="email" placeholder="someone@gmail.com">
                         </div>
 
                         <div class="col-md-12 ">
                             <label for="textarea" class="form-label text-white">Your Address </label>
-                            <textarea class="form-control mt-3" placeholder="Your Address Details" id="textarea"
+                            <textarea class="form-control mt-3" name="address" placeholder="Your Address Details" id="textarea"
                                 style="height: 150px;"></textarea>
                         </div>
-
+                        <input type="hidden" value="<?= $title ?>" name="product">
+                        <input type="hidden" value="<?= $price ?>" name="price">
+                          <button type="submit"  class="mt-3 btn btn-primary w-40 text-decoration-none">Confirm Order</button>
                     </fieldset>
+
                 </form>
             </div>
         </div>
     </div>
 <?php
 include('./widget/footer.php');
+?>
+
+<?php
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+  $product_title=$_POST['product'];
+  $price=$_POST['price'];
+  $qty=$_POST['qty'];
+  $total = $price * $qty;
+  $order_date=date('Y-m-d H:i:s');
+}
+
 ?>
