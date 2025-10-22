@@ -92,15 +92,12 @@ if ($count == 0) {
             <td><?= htmlspecialchars($address) ?></td>
             
             <td>
-                <a href="updateProduct.php?id=<?= urlencode($id) ?>" 
+                <a href="updateOrder.php?id=<?= urlencode($id) ?>&status=<?= $status ?>" 
                    class="bg-white p-2 rounded mx-1" title="Update Product">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </a>
 
-                <a href="deleteProduct.php?id=<?= urlencode($id) ?>&image=<?= urlencode($image_name) ?>" 
-                   class="bg-white p-2 rounded mx-1" title="Delete Product">
-                    <i class="fa-solid fa-trash text-danger"></i>
-                </a>
+                
             </td>
         </tr>
 
