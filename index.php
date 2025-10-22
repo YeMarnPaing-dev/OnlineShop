@@ -127,6 +127,7 @@ include('widget/header.php')
                     $title=$row['title'];
                     $price=$row['price'];
                     $image=$row['image'];
+                    $id=$row['id'];
                     ?>
                      <div class="col-md-6 p-2">
                 <div class="p-3 border-0 rounded-4 bg-body shadow w-100">
@@ -138,7 +139,7 @@ include('widget/header.php')
                             <p class="text-muted">
                                 Some product description
                             </p>
-                            <a href="order.php" class="btn btn-primary w-40 text-decoration-none">Order Now</a>
+                            <a href="order.php?id=<?=  $id ?>" class="btn btn-primary w-40 text-decoration-none">Order Now</a>
                         </div>
                     </div>
                 </div>
