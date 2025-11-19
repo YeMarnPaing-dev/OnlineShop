@@ -50,21 +50,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    
     // include('../config.php');
 
-    // Prepare SQL query
+    
 $sql = "INSERT INTO admins (fullname, userName, password, created_at, updated_at)
         VALUES ('$fullname', '$username', '$password', NOW(), NOW())";
 
 
-    // Run the query
+  
     $res = mysqli_query($conn, $sql);
 
-    // Check the result
+    
 if ($res) {
     $_SESSION['noti'] = '
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         Admin Added Successfully
     </div>';
-   header("Refresh:3"); // reloads after 3 seconds
+   header("Refresh:3"); 
 exit;
 
 
